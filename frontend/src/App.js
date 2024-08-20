@@ -7,7 +7,7 @@ function App() {
 
   // Fetch tasks from the backend
   useEffect(() => {
-    fetch('http://localhost:5000/api/tasks')
+    fetch('http://backend:5000/api/tasks')
       .then(response => response.json())
       .then(data => setTasks(data.tasks))
       .catch(error => console.error('Error fetching tasks:', error));
@@ -17,7 +17,7 @@ function App() {
   const addTask = () => {
     if (!newTask.trim()) return;
 
-    fetch('http://localhost:5000/api/tasks', {
+    fetch('http://backend:5000/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: newTask }),
@@ -25,7 +25,7 @@ function App() {
       .then(response => response.json())
       .then(() => {
         setNewTask('');
-        fetch('http://localhost:5000/api/tasks')
+        fetch('http://backend:5000/api/tasks')
           .then(response => response.json())
           .then(data => setTasks(data.tasks))
           .catch(error => console.error('Error fetching tasks:', error));
@@ -35,12 +35,12 @@ function App() {
 
   // Mark a task as completed
   const markAsCompleted = (id) => {
-    fetch(`http://localhost:5000/api/tasks/${id}`, {
+    fetch(`http://backend:5000/api/tasks/${id}`, {
       method: 'PUT',
     })
       .then(response => response.json())
       .then(() => {
-        fetch('http://localhost:5000/api/tasks')
+        fetch('http://backend:5000/api/tasks')
           .then(response => response.json())
           .then(data => setTasks(data.tasks))
           .catch(error => console.error('Error fetching tasks:', error));
