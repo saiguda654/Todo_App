@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:4.4
+    container_name: mongodb
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - voting-network
+
+  backend:
+    image: saiguda966/backend:latest
+    container_name: backend
+    ports:
+      - "5000:5000"
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017/todolist  # Updated MongoDB URI
+    depends_on:
+      - mongodb
+    networks:
+      - voting-network
+
+  frontend:
+    image: saiguda966/frontend:latest
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - voting-network
+
+networks:
+  voting-network:
+
+volumes:
+  mongodb-data:
